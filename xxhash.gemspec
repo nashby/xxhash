@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = XXhash::VERSION
   gem.authors       = ["Vasiliy Ermolovich"]
   gem.email         = ["younash@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Ruby wrapper for xxHash lib}
+  gem.summary       = %q{Ruby wrapper for xxHash lib}
+  gem.homepage      = "http://github/nashby/xxhash"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
