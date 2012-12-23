@@ -2,6 +2,9 @@
 
 Ruby wrapper for [xxHash](http://code.google.com/p/xxhash/)
 
+### Compatability
+- Does not work with JRuby ( since this uses C code ) . See [C-Extension-Alternatives](https://github.com/jruby/jruby/wiki/C-Extension-Alternatives) for more information
+
 ### Install
 
     gem install xxhash
