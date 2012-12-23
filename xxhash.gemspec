@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["younash@gmail.com"]
   gem.description   = %q{Ruby wrapper for xxHash lib}
   gem.summary       = %q{Ruby wrapper for xxHash lib}
-  gem.homepage      = "http://github/nashby/xxhash"
+  gem.homepage      = "http://github.com/nashby/xxhash"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
