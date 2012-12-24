@@ -1,4 +1,4 @@
-## xxHash
+## xxHash [![Build Status](https://travis-ci.org/nashby/xxhash.png?branch=master)](https://travis-ci.org/nashby/xxhash)
 
 Ruby wrapper for [xxHash](http://code.google.com/p/xxhash/)
 
@@ -16,6 +16,13 @@ seed = 12345
 
 XXhash.xxh32(text, seed) # => 3834992036
 ```
+
+### Supported Ruby versions
+
+- MRI 1.9.3
+- rbx-19mode
+
+Note: It doesn't work on JRuby as it uses C extension.
 
 ## Contributing
 
