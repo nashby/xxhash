@@ -26,7 +26,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.1.0 is equal to [r29](https://code.google.com/p/xxhash/source/detail?r=29)
+Version 0.1.1 is equal to [r29](https://code.google.com/p/xxhash/source/detail?r=29)
 
 ## Contributing
 
