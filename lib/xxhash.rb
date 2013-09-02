@@ -7,10 +7,10 @@ module XXhash
   end
 
   def self.xxh32_stream(io, seed, chunk_size = 32)
-    raise 'wrong parameter type: should be Core::IO' unless io.kind_of?(IO) || io.kind_of?(StringIO)
+    raise ArgumentError, 'first argument should be IO' if [IO, StringIO].none? { |t| io.kind_of?(t) }
 
     sh = Internal::StreamingHash.new(seed)
-    until (chunk = io.read(chunk_size)).nil?
+    while (chunk = io.read(chunk_size))
       sh.update(chunk)
     end
     sh.digest

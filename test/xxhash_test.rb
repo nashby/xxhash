@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'stringio'
 
 describe XXhash do
   it 'returns hash' do

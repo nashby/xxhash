@@ -16,10 +16,10 @@ extern "C" void xxhash_streaming_hash_free(void* state)
   (void) XXH32_digest(state);
 }
 
-extern "C" VALUE xxhash_streaming_hash_new(VALUE clazz, VALUE seed)
+extern "C" VALUE xxhash_streaming_hash_new(VALUE klass, VALUE seed)
 {
   void* state = XXH32_init(NUM2ULL(seed));
-  return Data_Wrap_Struct(clazz, 0, xxhash_streaming_hash_free, state);
+  return Data_Wrap_Struct(klass, 0, xxhash_streaming_hash_free, state);
 }
 
 extern "C" VALUE xxhash_streaming_hash_update(VALUE self, VALUE data)
