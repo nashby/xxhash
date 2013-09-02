@@ -7,6 +7,12 @@ describe XXhash do
   end
 
   describe 'StreamingHash' do
+    it 'rises ArgumentError if forst argument is not IO object' do
+      assert_raises(ArgumentError) do
+        XXhash.xxh32_stream('test', 123)
+      end
+    end
+
     it 'returns the hash for streamed strings' do
       assert_equal 2758658570, XXhash.xxh32_stream(StringIO.new('test'), 123)
     end
