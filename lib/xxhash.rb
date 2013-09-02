@@ -7,12 +7,14 @@ module XXhash
   end
 
   def self.xxh32_stream(io, seed, chunk_size = 32)
-    raise ArgumentError, 'first argument should be IO' if [IO, StringIO].none? { |t| io.kind_of?(t) }
+    raise ArgumentError, 'first argument should be IO' if !io.is_a?(IO) && !io.is_a?(StringIO)
 
-    sh = Internal::StreamingHash.new(seed)
-    while (chunk = io.read(chunk_size))
-      sh.update(chunk)
+    hash = Internal::StreamingHash.new(seed)
+
+    while chunk = io.read(chunk_size)
+      hash.update(chunk)
     end
-    sh.digest
+
+    hash.digest
   end
 end
