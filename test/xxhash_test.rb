@@ -14,6 +14,7 @@ describe XXhash do
     it 'returns the hash for streamed files' do
       h1 = XXhash.xxh32(File.read(__FILE__), 123)
       h2 = XXhash.xxh32_stream(File.open(__FILE__), 123)
+      assert_equal h1, h2
     end
   end
 end
