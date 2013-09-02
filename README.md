@@ -17,6 +17,14 @@ seed = 12345
 XXhash.xxh32(text, seed) # => 3834992036
 ```
 
+You can use it with `IO` objects too:
+
+```ruby
+XXhash.xxh32_stream(StringIO.new('test'), 123) # => 2758658570
+```
+
+Note that you can also pass a chunk size as third param (it's 32 bytes by default)
+
 ### Supported Ruby versions
 
 - MRI 1.9.3
