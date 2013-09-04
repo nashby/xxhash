@@ -34,7 +34,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.1.1 is equal to [r29](https://code.google.com/p/xxhash/source/detail?r=29)
+Version 0.2.0 is equal to [r32](https://code.google.com/p/xxhash/source/detail?r32)
 
 ## Contributing
 
@@ -46,5 +46,5 @@ Version 0.1.1 is equal to [r29](https://code.google.com/p/xxhash/source/detail?r
 
 ### Copyright
 
-Copyright (c) 2012 Vasiliy Ermolovich. See LICENSE.txt for
+Copyright (c) 2013 Vasiliy Ermolovich. See LICENSE.txt for
 further details.

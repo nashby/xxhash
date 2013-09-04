@@ -1,4 +1,4 @@
-### master
+### 0.2.0 (September 4, 2013)
   * xxHash updated to [r32](https://code.google.com/p/xxhash/source/detail?r=32)
   * add `XXhash.xxh32_stream` method (by [@maltoe](https://github.com/maltoe))
 
