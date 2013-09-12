@@ -11,7 +11,8 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Ruby wrapper for xxHash lib}
   gem.summary       = %q{Ruby wrapper for xxHash lib}
   gem.homepage      = "http://github.com/nashby/xxhash"
-
+  gem.license       = 'MIT'
+  
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
