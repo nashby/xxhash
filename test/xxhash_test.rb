@@ -7,7 +7,7 @@ describe XXhash do
   end
 
   describe 'StreamingHash' do
-    it 'rises ArgumentError if forst argument is not IO object' do
+    it 'rises ArgumentError if first argument is not IO object' do
       assert_raises(ArgumentError) do
         XXhash.xxh32_stream('test', 123)
       end
