@@ -6,6 +6,10 @@ describe XXhash do
     assert_equal 2758658570, XXhash.xxh32('test', 123)
   end
 
+  it 'uses 0 (default value) if seed is not specified' do
+    assert_equal 1042293711, XXhash.xxh32('test')
+  end
+
   describe 'StreamingHash' do
     it 'rises ArgumentError if forst argument is not IO object' do
       assert_raises(ArgumentError) do
