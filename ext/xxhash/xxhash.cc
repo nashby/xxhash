@@ -10,34 +10,42 @@ extern "C" VALUE xxhash_xxh32(VALUE mod, VALUE input, VALUE seed)
   return ULL2NUM(XXH32(StringValuePtr(input), RSTRING_LEN(input), NUM2ULL(seed)));
 }
 
-extern "C" void xxhash_streaming_hash_free(void* state)
+extern "C" void xxhash_streaming_hash_free(XXH32_state_t* state)
 {
   // Digest frees the memory.
-  (void) XXH32_digest(state);
+  XXH32_freeState(state);
 }
 
 extern "C" VALUE xxhash_streaming_hash_new(VALUE klass, VALUE seed)
 {
-  void* state = XXH32_init(NUM2ULL(seed));
+  XXH32_state_t* state = XXH32_createState();
+  XXH_errorcode code = XXH32_reset(state, NUM2ULL(seed));
+  if(code != XXH_OK) {
+    rb_raise(rb_eRuntimeError, "Error during reset.");
+    return Qnil;
+  }
   return Data_Wrap_Struct(klass, 0, xxhash_streaming_hash_free, state);
 }
 
 extern "C" VALUE xxhash_streaming_hash_update(VALUE self, VALUE data)
 {
-  void* state;
-  Data_Get_Struct(self, void, state);
+  XXH32_state_t* state;
+  Data_Get_Struct(self, XXH32_state_t, state);
 
-  XXH32_update(state, StringValuePtr(data), RSTRING_LEN(data));
+  XXH_errorcode code = XXH32_update(state, StringValuePtr(data), RSTRING_LEN(data));
+  if(code != XXH_OK) {
+    rb_raise(rb_eRuntimeError, "Error during update.");
+  }
   return Qnil;
 }
 
 extern "C" VALUE xxhash_streaming_hash_digest(VALUE self)
 {
-  void* state;
-  Data_Get_Struct(self, void, state);
+  XXH32_state_t* state;
+  Data_Get_Struct(self, XXH32_state_t, state);
 
   // Do not free memory now.
-  return ULL2NUM(XXH32_intermediateDigest(state));
+  return ULL2NUM(XXH32_digest(state));
 }
 
 extern "C" void Init_xxhash()
