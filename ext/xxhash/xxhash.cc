@@ -5,60 +5,112 @@
 // calling rb_define_method()
 typedef VALUE (ruby_method)(...);
 
-extern "C" VALUE xxhash_xxh32(VALUE mod, VALUE input, VALUE seed)
-{
-  return ULL2NUM(XXH32(StringValuePtr(input), RSTRING_LEN(input), NUM2ULL(seed)));
-}
+extern "C" {
+  VALUE xxhash_xxh32(VALUE mod, VALUE input, VALUE seed)
+  {
+    return ULL2NUM(XXH32(StringValuePtr(input), RSTRING_LEN(input), NUM2ULL(seed)));
+  }
 
-extern "C" void xxhash_streaming_hash_free(XXH32_state_t* state)
-{
-  // Digest frees the memory.
-  XXH32_freeState(state);
-}
+  void xxhash32_streaming_hash_free(XXH32_state_t* state)
+  {
+    // Digest frees the memory.
+    XXH32_freeState(state);
+  }
 
-extern "C" VALUE xxhash_streaming_hash_new(VALUE klass, VALUE seed)
-{
-  XXH32_state_t* state = XXH32_createState();
-  XXH_errorcode code = XXH32_reset(state, NUM2ULL(seed));
-  if(code != XXH_OK) {
-    rb_raise(rb_eRuntimeError, "Error during reset.");
+  VALUE xxhash32_streaming_hash_new(VALUE klass, VALUE seed)
+  {
+    XXH32_state_t* state = XXH32_createState();
+    XXH_errorcode code = XXH32_reset(state, NUM2ULL(seed));
+    if(code != XXH_OK) {
+      rb_raise(rb_eRuntimeError, "Error during reset.");
+      return Qnil;
+    }
+    return Data_Wrap_Struct(klass, 0, xxhash32_streaming_hash_free, state);
+  }
+
+  VALUE xxhash32_streaming_hash_update(VALUE self, VALUE data)
+  {
+    XXH32_state_t* state;
+    Data_Get_Struct(self, XXH32_state_t, state);
+
+    XXH_errorcode code = XXH32_update(state, StringValuePtr(data), RSTRING_LEN(data));
+    if(code != XXH_OK) {
+      rb_raise(rb_eRuntimeError, "Error during update.");
+    }
     return Qnil;
   }
-  return Data_Wrap_Struct(klass, 0, xxhash_streaming_hash_free, state);
-}
 
-extern "C" VALUE xxhash_streaming_hash_update(VALUE self, VALUE data)
-{
-  XXH32_state_t* state;
-  Data_Get_Struct(self, XXH32_state_t, state);
+  VALUE xxhash32_streaming_hash_digest(VALUE self)
+  {
+    XXH32_state_t* state;
+    Data_Get_Struct(self, XXH32_state_t, state);
 
-  XXH_errorcode code = XXH32_update(state, StringValuePtr(data), RSTRING_LEN(data));
-  if(code != XXH_OK) {
-    rb_raise(rb_eRuntimeError, "Error during update.");
+    // Do not free memory now.
+    return ULL2NUM(XXH32_digest(state));
   }
-  return Qnil;
-}
 
-extern "C" VALUE xxhash_streaming_hash_digest(VALUE self)
-{
-  XXH32_state_t* state;
-  Data_Get_Struct(self, XXH32_state_t, state);
+  VALUE xxhash_xxh64(VALUE mod, VALUE input, VALUE seed)
+  {
+    return ULL2NUM(XXH64(StringValuePtr(input), RSTRING_LEN(input), NUM2ULL(seed)));
+  }
 
-  // Do not free memory now.
-  return ULL2NUM(XXH32_digest(state));
-}
+  void xxhash64_streaming_hash_free(XXH64_state_t* state)
+  {
+    // Digest frees the memory.
+    XXH64_freeState(state);
+  }
 
-extern "C" void Init_xxhash()
-{
-  VALUE mXXhash = rb_define_module("XXhash");
-  VALUE mInternal = rb_define_module_under(mXXhash, "Internal");
+  VALUE xxhash64_streaming_hash_new(VALUE klass, VALUE seed)
+  {
+    XXH64_state_t* state = XXH64_createState();
+    XXH_errorcode code = XXH64_reset(state, NUM2ULL(seed));
+    if(code != XXH_OK) {
+      rb_raise(rb_eRuntimeError, "Error during reset.");
+      return Qnil;
+    }
+    return Data_Wrap_Struct(klass, 0, xxhash64_streaming_hash_free, state);
+  }
 
-  rb_define_singleton_method(mInternal, "xxh32", (ruby_method*) &xxhash_xxh32, 2);
+  VALUE xxhash64_streaming_hash_update(VALUE self, VALUE data)
+  {
+    XXH64_state_t* state;
+    Data_Get_Struct(self, XXH64_state_t, state);
 
-  VALUE cStreamingHash = rb_define_class_under(mInternal, "StreamingHash", rb_cObject);
+    XXH_errorcode code = XXH64_update(state, StringValuePtr(data), RSTRING_LEN(data));
+    if(code != XXH_OK) {
+      rb_raise(rb_eRuntimeError, "Error during update.");
+    }
+    return Qnil;
+  }
 
-  rb_define_singleton_method(cStreamingHash, "new", (ruby_method*) &xxhash_streaming_hash_new, 1);
-  rb_define_method(cStreamingHash, "update", (ruby_method*) &xxhash_streaming_hash_update, 1);
-  rb_define_method(cStreamingHash, "digest", (ruby_method*) &xxhash_streaming_hash_digest, 0);
-  rb_define_method(cStreamingHash, "intermediate_digest", (ruby_method*) &xxhash_streaming_hash_digest, 0);
+  VALUE xxhash64_streaming_hash_digest(VALUE self)
+  {
+    XXH64_state_t* state;
+    Data_Get_Struct(self, XXH64_state_t, state);
+
+    // Do not free memory now.
+    return ULL2NUM(XXH64_digest(state));
+  }
+
+
+  void Init_xxhash()
+  {
+    VALUE mXXhash = rb_define_module("XXhash");
+    VALUE mInternal = rb_define_module_under(mXXhash, "XXhashInternal");
+
+    rb_define_singleton_method(mInternal, "xxh32", (ruby_method*) &xxhash_xxh32, 2);
+    rb_define_singleton_method(mInternal, "xxh64", (ruby_method*) &xxhash_xxh64, 2);
+
+    VALUE cStreamingHash = rb_define_class_under(mInternal, "StreamingHash32", rb_cObject);
+
+    rb_define_singleton_method(cStreamingHash, "new", (ruby_method*) &xxhash32_streaming_hash_new, 1);
+    rb_define_method(cStreamingHash, "update", (ruby_method*) &xxhash32_streaming_hash_update, 1);
+    rb_define_method(cStreamingHash, "digest", (ruby_method*) &xxhash32_streaming_hash_digest, 0);
+
+    VALUE cStreamingHash64 = rb_define_class_under(mInternal, "StreamingHash64", rb_cObject);
+
+    rb_define_singleton_method(cStreamingHash64, "new", (ruby_method*) &xxhash64_streaming_hash_new, 1);
+    rb_define_method(cStreamingHash64, "update", (ruby_method*) &xxhash64_streaming_hash_update, 1);
+    rb_define_method(cStreamingHash64, "digest", (ruby_method*) &xxhash64_streaming_hash_digest, 0);
+  }
 }
