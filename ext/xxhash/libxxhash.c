@@ -535,7 +535,7 @@ XXH_errorcode XXH32_freeState(XXH32_state_t* statePtr)
 {
     XXH_free(statePtr);
     return XXH_OK;
-};
+}
 
 XXH64_state_t* XXH64_createState(void)
 {
@@ -546,7 +546,7 @@ XXH_errorcode XXH64_freeState(XXH64_state_t* statePtr)
 {
     XXH_free(statePtr);
     return XXH_OK;
-};
+}
 
 
 /*** Hash feed ***/
@@ -660,8 +660,8 @@ FORCE_INLINE XXH_errorcode XXH32_update_endian (XXH32_state_t* state_in, const v
 
     if (p < bEnd)
     {
-        XXH_memcpy(state->mem32, p, bEnd-p);
-        state->memsize = (int)(bEnd-p);
+        XXH_memcpy(state->mem32, p, (size_t)(bEnd-p));
+        state->memsize = (U32)(bEnd-p);
     }
 
     return XXH_OK;
@@ -814,8 +814,8 @@ FORCE_INLINE XXH_errorcode XXH64_update_endian (XXH64_state_t* state_in, const v
 
     if (p < bEnd)
     {
-        XXH_memcpy(state->mem64, p, bEnd-p);
-        state->memsize = (int)(bEnd-p);
+        XXH_memcpy(state->mem64, p, (size_t)(bEnd-p));
+        state->memsize = (U32)(bEnd-p);
     }
 
     return XXH_OK;

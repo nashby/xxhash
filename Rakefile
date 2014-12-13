@@ -14,7 +14,7 @@ task :default => :test
 
 require 'rake/extensiontask'
 Rake::ExtensionTask.new('xxhash') do |ext|
-  ext.lib_dir = 'lib/xxhash'
+  # Customizations can be set here
 end
 
 Rake::Task[:test].prerequisites << :compile
