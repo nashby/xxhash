@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative 'test_helper'
 require 'stringio'
 
 describe XXhash do
@@ -10,7 +10,13 @@ describe XXhash do
     assert_equal 3134990500624303823, XXhash.xxh64('test', 123)
   end
 
+  it 'uses 0 (default value) if seed is not specified' do
+    assert_equal 1042293711, XXhash.xxh32('test')
+    assert_equal 5754696928334414137, XXhash.xxh64('test')
+  end
+
   describe 'StreamingHash32' do
+
     it 'rises ArgumentError if first argument is not IO object' do
       assert_raises(ArgumentError) do
         XXhash.xxh32_stream('test', 123)
