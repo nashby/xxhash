@@ -1,8 +1,7 @@
 require 'mkmf'
 
-%w{g O3 Wall}.each do |flag|
-  flag = "-#{flag}"
-  $CPPFLAGS += " #{flag}" unless $CPPFLAGS.split.include? flag
+%w{ g O3  Wno-padded }.each do |flag|
+  $CFLAGS += " -#{flag}"
 end
 
 create_makefile('xxhash/xxhash')

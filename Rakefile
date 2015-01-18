@@ -14,6 +14,7 @@ task :default => :test
 
 require 'rake/extensiontask'
 Rake::ExtensionTask.new('xxhash') do |ext|
+  # Customizations can be set here
   ext.lib_dir = 'lib/xxhash'
 end
 

@@ -1,6 +1,7 @@
 *.gem
 *.rbc
 *.bundle
+**/*.iml
 .config
 .yardoc
 Gemfile.lock
@@ -16,3 +17,4 @@ test/tmp
 test/version_tmp
 tmp
 lib/xxhash/xxhash.so
+.idea/
