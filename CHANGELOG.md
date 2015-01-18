@@ -1,4 +1,4 @@
-### master
+### 0.3.0 (January 18, 2015)
   * make seed param optional (by [@weakish](https://github.com/weakish))
   * add 64-bit xxhash function (by [@justinwsmith](https://github.com/justinwsmith)) 
 
