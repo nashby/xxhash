@@ -17,6 +17,8 @@ seed = 12345
 XXhash.xxh32(text, seed) # => 3834992036
 ```
 
+If you does not provide a seed, it will use the default value `0`.
+
 You can use it with `IO` objects too:
 
 ```ruby
@@ -25,9 +27,11 @@ XXhash.xxh32_stream(StringIO.new('test'), 123) # => 2758658570
 
 Note that you can also pass a chunk size as third param (it's 32 bytes by default)
 
+XXH64 is also supported: you can use `xxh64` and `xxh64_stream`.
+
 ### Supported Ruby versions
 
-- MRI 1.9.3
+- MRI 1.9.3, 2.0, 2.1, 2.2.
 - rbx-19mode
 
 Note: It doesn't work on JRuby as it uses C extension.
