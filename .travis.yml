@@ -1,4 +1,8 @@
 language: ruby
 rvm:
   - 1.9.3
-  - rbx-19mode
+  - 2.0.0
+  - 2.1
+  - 2.2
+cache: bundler
+script: "bundle exec rake test"
