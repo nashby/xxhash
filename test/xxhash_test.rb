@@ -15,7 +15,7 @@ describe XXhash do
     assert_equal 5754696928334414137, XXhash.xxh64('test')
   end
 
-  describe 'StreamingHash32' do
+  describe 'XXhashInternal::StreamingHash32' do
 
     it 'rises ArgumentError if first argument is not IO object' do
       assert_raises(ArgumentError) do
@@ -34,7 +34,7 @@ describe XXhash do
     end
   end
 
-  describe 'StreamingHash64' do
+  describe 'XXhashInternal::StreamingHash64' do
     it 'rises ArgumentError if first argument is not IO object' do
       assert_raises(ArgumentError) do
         XXhash.xxh64_stream('test', 123)
@@ -51,4 +51,47 @@ describe XXhash do
       assert_equal h1, h2
     end
   end
+
+  def use_external_hash hash, io, chunk_size=1024
+    while chunk=io.read(chunk_size)
+      hash.update(chunk)
+    end
+    hash.digest
+  end
+
+  describe 'External StreamingHash32' do
+
+    it 'returns the hash for streamed strings' do
+      StringIO.open('test') do |io|
+        xxhash = XXhash::StreamingHash32.new(123)
+        result = use_external_hash xxhash, io
+        assert_equal 2758658570, result
+      end
+    end
+
+    it 'returns the hash for streamed files' do
+      h1 = XXhash.xxh32(File.read(__FILE__), 123)
+      xxhash = XXhash::StreamingHash32.new(123)
+      result = use_external_hash xxhash, File.open(__FILE__)
+      assert_equal h1, result
+    end
+  end
+
+  describe 'External StreamingHash64' do
+    it 'returns the hash for streamed strings' do
+      StringIO.open('test') do |io|
+        xxhash = XXhash::StreamingHash64.new(123)
+        result = use_external_hash xxhash, io
+        assert_equal 3134990500624303823, result
+      end
+    end
+
+    it 'returns the hash for streamed files' do
+      h1 = XXhash.xxh64(File.read(__FILE__), 123)
+      xxhash = XXhash::StreamingHash64.new(123)
+      result = use_external_hash xxhash, File.open(__FILE__)
+      assert_equal h1, result
+    end
+  end
+
 end

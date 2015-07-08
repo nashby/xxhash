@@ -33,4 +33,30 @@ module XXhash
 
     hash.digest
   end
+
+  class StreamingHash
+    def initialize
+      raise "StreamingHash should not be instantiated!"
+    end
+
+    def update chunk
+      @hash.update(chunk)
+    end
+
+    def digest
+      @hash.digest
+    end
+  end
+
+  class StreamingHash32 < StreamingHash
+    def initialize seed = 0
+      @hash = XXhashInternal::StreamingHash32.new(seed)
+    end
+  end
+
+  class StreamingHash64 < StreamingHash
+    def initialize seed = 0
+      @hash = XXhashInternal::StreamingHash64.new(seed)
+    end
+  end
 end
