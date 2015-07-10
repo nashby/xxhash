@@ -1,5 +1,6 @@
 require 'xxhash/version'
 require 'xxhash/xxhash'
+require 'digest'
 
 module XXhash
   def self.xxh32(input, seed = 0)
@@ -34,29 +35,57 @@ module XXhash
     hash.digest
   end
 
-  class StreamingHash
-    def initialize
-      raise "StreamingHash should not be instantiated!"
+end
+
+module Digest
+  class XXHash < Digest::Class
+    attr_reader :digest_length
+    def initialize bitlen, seed = 0
+      case bitlen
+        when 32
+          @hash = XXhash::XXhashInternal::StreamingHash32.new(seed)
+        when 64
+          @hash = XXhash::XXhashInternal::StreamingHash64.new(seed)
+        else
+          raise ArgumentError, "Unsupported bit length: %s" % bitlen.inspect
+      end
+      @digest_length = bitlen
     end
 
     def update chunk
       @hash.update(chunk)
     end
 
-    def digest
+    def digest val=nil
+      if val
+        @hash.update val
+      end
+
       @hash.digest
     end
+
+    def digest! val=nil
+      result = digest(val)
+      @hash.reset
+      result
+    end
+
+    def reset
+      @hash.reset
+    end
+
   end
 
-  class StreamingHash32 < StreamingHash
+  class XXHash32 < Digest::XXHash
     def initialize seed = 0
-      @hash = XXhashInternal::StreamingHash32.new(seed)
+      super(32, seed)
     end
   end
 
-  class StreamingHash64 < StreamingHash
+  class XXHash64 < Digest::XXHash
     def initialize seed = 0
-      @hash = XXhashInternal::StreamingHash64.new(seed)
+      super(64, seed)
     end
   end
+
 end

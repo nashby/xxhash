@@ -59,11 +59,11 @@ describe XXhash do
     hash.digest
   end
 
-  describe 'External StreamingHash32' do
+  describe 'Digest::XXhash32' do
 
     it 'returns the hash for streamed strings' do
       StringIO.open('test') do |io|
-        xxhash = XXhash::StreamingHash32.new(123)
+        xxhash = Digest::XXHash32.new(123)
         result = use_external_hash xxhash, io
         assert_equal 2758658570, result
       end
@@ -71,16 +71,25 @@ describe XXhash do
 
     it 'returns the hash for streamed files' do
       h1 = XXhash.xxh32(File.read(__FILE__), 123)
-      xxhash = XXhash::StreamingHash32.new(123)
+      xxhash = Digest::XXHash32.new(123)
+      result = use_external_hash xxhash, File.open(__FILE__)
+      assert_equal h1, result
+    end
+
+    it 'returns correct hash after a reset' do
+      h1 = XXhash.xxh32(File.read(__FILE__), 123)
+      xxhash = Digest::XXHash32.new(123)
+      assert_equal 2758658570, xxhash.digest('test')
+      xxhash.reset
       result = use_external_hash xxhash, File.open(__FILE__)
       assert_equal h1, result
     end
   end
 
-  describe 'External StreamingHash64' do
+  describe 'Digest::XXhash64' do
     it 'returns the hash for streamed strings' do
       StringIO.open('test') do |io|
-        xxhash = XXhash::StreamingHash64.new(123)
+        xxhash = Digest::XXHash64.new(123)
         result = use_external_hash xxhash, io
         assert_equal 3134990500624303823, result
       end
@@ -88,7 +97,16 @@ describe XXhash do
 
     it 'returns the hash for streamed files' do
       h1 = XXhash.xxh64(File.read(__FILE__), 123)
-      xxhash = XXhash::StreamingHash64.new(123)
+      xxhash = Digest::XXHash64.new(123)
+      result = use_external_hash xxhash, File.open(__FILE__)
+      assert_equal h1, result
+    end
+
+    it 'returns correct hash after reset' do
+      h1 = XXhash.xxh64(File.read(__FILE__), 123)
+      xxhash = Digest::XXHash64.new(123)
+      assert_equal 3134990500624303823, xxhash.digest('test')
+      xxhash.reset
       result = use_external_hash xxhash, File.open(__FILE__)
       assert_equal h1, result
     end
