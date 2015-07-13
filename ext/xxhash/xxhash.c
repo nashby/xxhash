@@ -1,7 +1,5 @@
 #include "xxhash.h"
 
-
-
 VALUE xxhash_xxh32(VALUE mod, VALUE input, VALUE seed)
 {
   return ULL2NUM(XXH32(StringValuePtr(input), (size_t)RSTRING_LEN(input), (unsigned int)NUM2ULL(seed)));

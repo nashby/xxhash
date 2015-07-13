@@ -40,7 +40,7 @@ end
 module Digest
   class XXHash < Digest::Class
     attr_reader :digest_length
-    def initialize bitlen, seed = 0
+    def initialize(bitlen, seed = 0)
       case bitlen
         when 32
           @hash = XXhash::XXhashInternal::StreamingHash32.new(seed)
@@ -52,11 +52,11 @@ module Digest
       @digest_length = bitlen
     end
 
-    def update chunk
+    def update(chunk)
       @hash.update(chunk)
     end
 
-    def digest val=nil
+    def digest(val=nil)
       if val
         @hash.update val
       end
@@ -64,26 +64,26 @@ module Digest
       @hash.digest
     end
 
-    def digest! val=nil
+    def digest!(val=nil)
       result = digest(val)
       @hash.reset
       result
     end
 
-    def reset
+    def reset()
       @hash.reset
     end
 
   end
 
   class XXHash32 < Digest::XXHash
-    def initialize seed = 0
+    def initialize(seed = 0)
       super(32, seed)
     end
   end
 
   class XXHash64 < Digest::XXHash
-    def initialize seed = 0
+    def initialize(seed = 0)
       super(64, seed)
     end
   end
