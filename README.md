@@ -17,7 +17,7 @@ seed = 12345
 XXhash.xxh32(text, seed) # => 3834992036
 ```
 
-If you does not provide a seed, it will use the default value `0`.
+If you do not provide a seed, it will use the default value `0`.
 
 You can use it with `IO` objects too:
 
