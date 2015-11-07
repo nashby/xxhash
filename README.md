@@ -1,6 +1,6 @@
 ## xxHash [![Build Status](https://travis-ci.org/nashby/xxhash.png?branch=master)](https://travis-ci.org/nashby/xxhash)
 
-Ruby wrapper for [xxHash](http://code.google.com/p/xxhash/)
+Ruby wrapper for [xxHash](https://github.com/Cyan4973/xxHash)
 
 ### Install
 
