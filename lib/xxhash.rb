@@ -40,15 +40,17 @@ end
 module Digest
   class XXHash < Digest::Class
     attr_reader :digest_length
+
     def initialize(bitlen, seed = 0)
-      case bitlen
-        when 32
-          @hash = XXhash::XXhashInternal::StreamingHash32.new(seed)
-        when 64
-          @hash = XXhash::XXhashInternal::StreamingHash64.new(seed)
-        else
-          raise ArgumentError, "Unsupported bit length: %s" % bitlen.inspect
+      @hash = case bitlen
+      when 32
+        XXhash::XXhashInternal::StreamingHash32.new(seed)
+      when 64
+        @hash = XXhash::XXhashInternal::StreamingHash64.new(seed)
+      else
+        raise ArgumentError, "Unsupported bit length: %s" % bitlen.inspect
       end
+
       @digest_length = bitlen
     end
 
@@ -56,24 +58,22 @@ module Digest
       @hash.update(chunk)
     end
 
-    def digest(val=nil)
-      if val
-        @hash.update val
-      end
+    def digest(val = nil)
+      @hash.update(val) if val
 
       @hash.digest
     end
 
-    def digest!(val=nil)
+    def digest!(val = nil)
       result = digest(val)
       @hash.reset
+
       result
     end
 
-    def reset()
+    def reset
       @hash.reset
     end
-
   end
 
   class XXHash32 < Digest::XXHash
@@ -87,5 +87,4 @@ module Digest
       super(64, seed)
     end
   end
-
 end
