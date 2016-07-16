@@ -50,6 +50,14 @@ describe XXhash do
       h2 = XXhash.xxh64_stream(File.open(__FILE__), 123)
       assert_equal h1, h2
     end
+
+    it 'exception (not segfault) on nil' do
+      begin
+        XXhash.xxh64(nil)
+        fail
+      rescue
+      end
+    end
   end
 
   def use_external_hash hash, io, chunk_size=1024
@@ -83,6 +91,13 @@ describe XXhash do
       xxhash.reset
       result = use_external_hash xxhash, File.open(__FILE__)
       assert_equal h1, result
+    end
+
+    it 'exception (not segfault) on nil' do
+      begin
+        XXhash.xxh32(nil)
+      rescue
+      end
     end
   end
 
