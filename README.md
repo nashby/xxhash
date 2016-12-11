@@ -38,7 +38,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.2.0 is equal to [r32](https://code.google.com/p/xxhash/source/detail?r32)
+Version 0.4.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2)
 
 ## Contributing
 
