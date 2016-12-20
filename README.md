@@ -31,7 +31,7 @@ XXH64 is also supported: you can use `xxh64` and `xxh64_stream`.
 
 ### Supported Ruby versions
 
-- MRI 1.9.3, 2.0, 2.1, 2.2.
+- MRI 1.9.3, 2.0, 2.1, 2.2 & 2.3.
 - rbx-19mode
 
 Note: It doesn't work on JRuby as it uses C extension.
