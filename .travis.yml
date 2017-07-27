@@ -7,5 +7,6 @@ rvm:
   - 2.1
   - 2.2
   - 2.3.3
+  - 2.4.1
 
 script: "bundle exec rake test"
