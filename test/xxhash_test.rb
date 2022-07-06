@@ -2,6 +2,17 @@ require_relative 'test_helper'
 require 'stringio'
 
 describe XXhash do
+  it 'is marked as ractor-safe' do
+    skip("Ractorrs are not supported in this version of ruby(#{RUBY_VERSIONO})") unless defined?(Ractor)
+
+    ractor = Ractor.new do
+      Ractor.yield XXhash.xxh32(Ractor.receive)
+    end
+
+    ractor.send('test')
+    assert_equal ractor.take, XXhash.xxh32('test')
+  end
+
   it 'returns 32-bit hash' do
     assert_equal 2758658570, XXhash.xxh32('test', 123)
   end
