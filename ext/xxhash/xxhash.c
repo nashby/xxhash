@@ -129,6 +129,10 @@ VALUE xxhash64_streaming_hash_digest(VALUE self)
 
 void Init_xxhash(void)
 {
+  #ifdef HAVE_RB_EXT_RACTOR_SAFE
+    rb_ext_ractor_safe(true);
+  #endif
+
   VALUE cStreamingHash;
   VALUE cStreamingHash64;
   VALUE mXXhash;
