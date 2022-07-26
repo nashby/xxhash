@@ -17,13 +17,33 @@ describe XXhash do
     assert_equal 2758658570, XXhash.xxh32('test', 123)
   end
 
+  it 'returns 32-bit hash from a file' do
+    assert_equal XXhash.xxh32(File.read(__FILE__)), XXhash.xxh32_file(__FILE__)
+    assert_equal XXhash.xxh32(File.read(__FILE__), 123), XXhash.xxh32_file(__FILE__, 123)
+  end
+
   it 'returns 64-bit hash' do
     assert_equal 3134990500624303823, XXhash.xxh64('test', 123)
+  end
+
+  it 'returns 64-bit hash from a file' do
+    assert_equal XXhash.xxh64(File.read(__FILE__)), XXhash.xxh64_file(__FILE__)
+    assert_equal XXhash.xxh64(File.read(__FILE__), 123), XXhash.xxh64_file(__FILE__, 123)
   end
 
   it 'uses 0 (default value) if seed is not specified' do
     assert_equal 1042293711, XXhash.xxh32('test')
     assert_equal 5754696928334414137, XXhash.xxh64('test')
+  end
+
+  it 'raises an Errno exception for invalid file' do
+    assert_raises Errno::ENOENT do
+      XXhash.xxh32_file('nonexistent-file')
+    end
+
+    assert_raises Errno::ENOENT do
+      XXhash.xxh64_file('nonexistent-file')
+    end
   end
 
   describe 'XXhashInternal::StreamingHash32' do

@@ -11,6 +11,14 @@ module XXhash
     XXhashInternal.xxh64(input.to_s, seed.to_i)
   end
 
+  def self.xxh32_file(filename, seed = 0)
+    XXhashInternal.xxh32_file(filename.to_s, seed.to_i)
+  end
+
+  def self.xxh64_file(filename, seed = 0)
+    XXhashInternal.xxh64_file(filename.to_s, seed.to_i)
+  end
+
   def self.xxh32_stream(io, seed = 0, chunk_size = 32)
     seed = seed.to_i
     chunk_size = chunk_size.to_i
