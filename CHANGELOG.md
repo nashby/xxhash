@@ -1,4 +1,8 @@
-### 0.4.0  (December 11, 2016)
+### 0.5.0 (July 28, 2022)
+  * Mark extension as Ractor-safe (by [@kreynolds](https://github.com/kreynolds))
+  * Add ability to hash files by path directly with `XXhash.xxh32_file` and `XXhash.xxh64_file` (by [@kreynolds](https://github.com/kreynolds))
+
+### 0.4.0 (December 11, 2016)
   * Add xxHash to `Digest` module and make it more compatieble
     with another hash functions from `Digest`. (by [@justinwsmith](https://github.com/justinwsmith))
   * Add a `StreamingHash` class that's externally instantiatable. (by [@justinwsmith](https://github.com/justinwsmith))
