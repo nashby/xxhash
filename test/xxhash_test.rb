@@ -3,7 +3,7 @@ require 'stringio'
 
 describe XXhash do
   it 'is marked as ractor-safe' do
-    skip("Ractorrs are not supported in this version of ruby(#{RUBY_VERSIONO})") unless defined?(Ractor)
+    skip("Ractorrs are not supported in this version of ruby(#{RUBY_VERSION})") unless defined?(Ractor)
 
     ractor = Ractor.new do
       Ractor.yield XXhash.xxh32(Ractor.receive)
