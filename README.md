@@ -25,9 +25,15 @@ You can use it with `IO` objects too:
 XXhash.xxh32_stream(StringIO.new('test'), 123) # => 2758658570
 ```
 
+You can use it with file path directly, avoiding costly ruby-related operations.
+
+```ruby
+XXhash.xxh32_file(__FILE__)
+```
+
 Note that you can also pass a chunk size as third param (it's 32 bytes by default)
 
-XXH64 is also supported: you can use `xxh64` and `xxh64_stream`.
+XXH64 is also supported: you can use `xxh64`, `xxh64_stream`, `.xxh64_file`.
 
 ### Supported Ruby versions
 
@@ -38,7 +44,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.4.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2)
+Version 0.5.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2)
 
 ## Contributing
 
@@ -50,5 +56,5 @@ Version 0.4.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2
 
 ### Copyright
 
-Copyright (c) 2013 Vasiliy Ermolovich. See LICENSE.txt for
+Copyright (c) 2022 Vasiliy Ermolovich. See LICENSE.txt for
 further details.
