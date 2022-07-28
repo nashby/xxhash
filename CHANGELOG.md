@@ -1,3 +1,6 @@
+### master
+  * Update libxxhash to 0.8.1
+
 ### 0.5.0 (July 28, 2022)
   * Mark extension as Ractor-safe (by [@kreynolds](https://github.com/kreynolds))
   * Add ability to hash files by path directly with `XXhash.xxh32_file` and `XXhash.xxh64_file` (by [@kreynolds](https://github.com/kreynolds))
