@@ -1,5 +1,67 @@
 #include "xxhash.h"
 
+VALUE xxhash_xxh32_file(VALUE mod, VALUE filename, VALUE seed)
+{
+  StringValue(filename);
+
+  XXH32_state_t* state = XXH32_createState();
+  if (state == NULL) {
+    rb_raise(rb_eRuntimeError, "%s", "Cannot create state, out of memory");
+  }
+
+  XXH32_reset(state, NUM2INT(seed));
+
+  char buffer[16384];
+  size_t count;
+  FILE *fp = fopen(RSTRING_PTR(filename), "rb");
+  if (fp == NULL) {
+    XXH32_freeState(state);
+    VALUE error = INT2FIX(errno);
+    rb_exc_raise(rb_class_new_instance(1, &error, rb_eSystemCallError));
+  }
+
+  while ((count = fread(buffer, 1, sizeof(buffer), fp)) != 0) {
+    XXH32_update(state, buffer, count);
+  }
+  fclose(fp);
+
+  XXH32_hash_t result = XXH32_digest(state);
+
+  XXH32_freeState(state);
+  return ULL2NUM(result);
+}
+
+VALUE xxhash_xxh64_file(VALUE mod, VALUE filename, VALUE seed)
+{
+  StringValue(filename);
+
+  XXH64_state_t* state = XXH64_createState();
+  if (state == NULL) {
+    rb_raise(rb_eRuntimeError, "%s", "Cannot create state, out of memory");
+  }
+
+  XXH64_reset(state, NUM2INT(seed));
+
+  char buffer[16384];
+  size_t count;
+  FILE *fp = fopen(RSTRING_PTR(filename), "rb");
+  if (fp == NULL) {
+    XXH64_freeState(state);
+    VALUE error = INT2FIX(errno);
+    rb_exc_raise(rb_class_new_instance(1, &error, rb_eSystemCallError));
+  }
+
+  while ((count = fread(buffer, 1, sizeof(buffer), fp)) != 0) {
+    XXH64_update(state, buffer, count);
+  }
+  fclose(fp);
+
+  XXH64_hash_t result = XXH64_digest(state);
+
+  XXH64_freeState(state);
+  return ULL2NUM(result);
+}
+
 VALUE xxhash_xxh32(VALUE mod, VALUE input, VALUE seed)
 {
   return ULL2NUM(XXH32(StringValuePtr(input), (size_t)RSTRING_LEN(input), (unsigned int)NUM2ULL(seed)));
@@ -142,7 +204,9 @@ void Init_xxhash(void)
   mInternal = rb_define_module_under(mXXhash, "XXhashInternal");
 
   rb_define_singleton_method(mInternal, "xxh32", (ruby_method*) &xxhash_xxh32, 2);
+  rb_define_singleton_method(mInternal, "xxh32_file", (ruby_method*) &xxhash_xxh32_file, 2);
   rb_define_singleton_method(mInternal, "xxh64", (ruby_method*) &xxhash_xxh64, 2);
+  rb_define_singleton_method(mInternal, "xxh64_file", (ruby_method*) &xxhash_xxh64_file, 2);
 
   cStreamingHash = rb_define_class_under(mInternal, "StreamingHash32", rb_cObject);
 
