@@ -202,6 +202,7 @@ void Init_xxhash(void)
 
   mXXhash = rb_define_module("XXhash");
   mInternal = rb_define_module_under(mXXhash, "XXhashInternal");
+  rb_ext_ractor_safe(true);
 
   rb_define_singleton_method(mInternal, "xxh32", (ruby_method*) &xxhash_xxh32, 2);
   rb_define_singleton_method(mInternal, "xxh32_file", (ruby_method*) &xxhash_xxh32_file, 2);
