@@ -1,4 +1,4 @@
-## xxHash [![Build Status](https://travis-ci.org/nashby/xxhash.png?branch=master)](https://travis-ci.org/nashby/xxhash)
+## xxHash [![Ruby](https://github.com/nashby/xxhash/actions/workflows/ruby.yml/badge.svg)](https://github.com/nashby/xxhash/actions/workflows/ruby.yml)
 
 Ruby wrapper for [xxHash](https://github.com/Cyan4973/xxHash)
 
@@ -37,8 +37,7 @@ XXH64 is also supported: you can use `xxh64`, `xxh64_stream`, `.xxh64_file`.
 
 ### Supported Ruby versions
 
-- MRI 2.3+
-- rbx-19mode
+- MRI 3.1+
 
 Note: It doesn't work on JRuby as it uses C extension.
 
