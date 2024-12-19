@@ -43,7 +43,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.5.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2)
+Version 0.6.0 is equal to [0.8.1](https://github.com/Cyan4973/xxHash/tree/v0.8.1)
 
 ## Contributing
 
@@ -55,5 +55,5 @@ Version 0.5.0 is equal to [0.6.2](https://github.com/Cyan4973/xxHash/tree/v0.6.2
 
 ### Copyright
 
-Copyright (c) 2022 Vasiliy Ermolovich. See LICENSE.txt for
+Copyright (c) 2024 Vasiliy Ermolovich. See LICENSE.txt for
 further details.
