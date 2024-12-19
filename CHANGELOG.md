@@ -1,5 +1,7 @@
-### master
+### 0.6.0 (December 19, 2024)
   * Update libxxhash to 0.8.1
+  * Drop old Rubies. Support only MRI 3.1+
+  * Modernize Ruby C API ussage, fix related warnings. (by [@casperisfine](https://github.com/casperisfine) and [@byroot](https://github.com/byroot))
 
 ### 0.5.0 (July 28, 2022)
   * Mark extension as Ractor-safe (by [@kreynolds](https://github.com/kreynolds))
