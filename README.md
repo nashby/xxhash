@@ -43,7 +43,7 @@ Note: It doesn't work on JRuby as it uses C extension.
 
 ### Versioning
 
-Version 0.6.0 is equal to [0.8.1](https://github.com/Cyan4973/xxHash/tree/v0.8.1)
+Version 0.7.0 is equal to [0.8.1](https://github.com/Cyan4973/xxHash/tree/v0.8.1)
 
 ## Contributing
 
