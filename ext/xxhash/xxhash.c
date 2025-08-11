@@ -237,24 +237,24 @@ void Init_xxhash(void)
   mXXhash = rb_define_module("XXhash");
   mInternal = rb_define_module_under(mXXhash, "XXhashInternal");
 
-  rb_define_singleton_method(mInternal, "xxh32", (ruby_method*) &xxhash_xxh32, 2);
-  rb_define_singleton_method(mInternal, "xxh32_file", (ruby_method*) &xxhash_xxh32_file, 2);
-  rb_define_singleton_method(mInternal, "xxh64", (ruby_method*) &xxhash_xxh64, 2);
-  rb_define_singleton_method(mInternal, "xxh64_file", (ruby_method*) &xxhash_xxh64_file, 2);
+  rb_define_singleton_method(mInternal, "xxh32", xxhash_xxh32, 2);
+  rb_define_singleton_method(mInternal, "xxh32_file", xxhash_xxh32_file, 2);
+  rb_define_singleton_method(mInternal, "xxh64", xxhash_xxh64, 2);
+  rb_define_singleton_method(mInternal, "xxh64_file", xxhash_xxh64_file, 2);
 
   cStreamingHash = rb_define_class_under(mInternal, "StreamingHash32", rb_cObject);
   rb_undef_alloc_func(cStreamingHash);
 
-  rb_define_singleton_method(cStreamingHash, "new", (ruby_method*) &xxhash32_streaming_hash_new, 1);
-  rb_define_method(cStreamingHash, "update", (ruby_method*) &xxhash32_streaming_hash_update, 1);
-  rb_define_method(cStreamingHash, "digest", (ruby_method*) &xxhash32_streaming_hash_digest, 0);
-  rb_define_method(cStreamingHash, "reset", (ruby_method*) &xxhash32_streaming_hash_reset, 0);
+  rb_define_singleton_method(cStreamingHash, "new", xxhash32_streaming_hash_new, 1);
+  rb_define_method(cStreamingHash, "update", xxhash32_streaming_hash_update, 1);
+  rb_define_method(cStreamingHash, "digest", xxhash32_streaming_hash_digest, 0);
+  rb_define_method(cStreamingHash, "reset", xxhash32_streaming_hash_reset, 0);
 
   cStreamingHash64 = rb_define_class_under(mInternal, "StreamingHash64", rb_cObject);
   rb_undef_alloc_func(cStreamingHash64);
 
-  rb_define_singleton_method(cStreamingHash64, "new", (ruby_method*) &xxhash64_streaming_hash_new, 1);
-  rb_define_method(cStreamingHash64, "update", (ruby_method*) &xxhash64_streaming_hash_update, 1);
-  rb_define_method(cStreamingHash64, "digest", (ruby_method*) &xxhash64_streaming_hash_digest, 0);
-  rb_define_method(cStreamingHash64, "reset", (ruby_method*) &xxhash64_streaming_hash_reset, 0);
+  rb_define_singleton_method(cStreamingHash64, "new", xxhash64_streaming_hash_new, 1);
+  rb_define_method(cStreamingHash64, "update", xxhash64_streaming_hash_update, 1);
+  rb_define_method(cStreamingHash64, "digest", xxhash64_streaming_hash_digest, 0);
+  rb_define_method(cStreamingHash64, "reset", xxhash64_streaming_hash_reset, 0);
 }
