@@ -1,3 +1,6 @@
+### 0.7.0 (August 11, 2025)
+  * Make it compatible with gcc 15 (by [@lemmuh](https://github.com/lemmuh))
+    
 ### 0.6.0 (December 19, 2024)
   * Update libxxhash to 0.8.1
   * Drop old Rubies. Support only MRI 3.1+
