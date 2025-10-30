@@ -5,7 +5,7 @@
 
 typedef struct {
   XXH32_state_t* state;
-  unsigned int seed;
+  XXH32_hash_t seed;
 } xxhash_xxh32_t;
 
 typedef struct {
