@@ -1,5 +1,7 @@
 #include "xxhash.h"
 
+#define XXH_FILE_BUFFER_SIZE 65536  /* 64KB buffer for file I/O */
+
 VALUE xxhash_xxh32_file(VALUE mod, VALUE filename, VALUE seed)
 {
   StringValue(filename);
@@ -11,7 +13,7 @@ VALUE xxhash_xxh32_file(VALUE mod, VALUE filename, VALUE seed)
 
   XXH32_reset(state, NUM2INT(seed));
 
-  char buffer[16384];
+  char buffer[XXH_FILE_BUFFER_SIZE];
   size_t count;
   FILE *fp = fopen(RSTRING_PTR(filename), "rb");
   if (fp == NULL) {
@@ -47,7 +49,7 @@ VALUE xxhash_xxh64_file(VALUE mod, VALUE filename, VALUE seed)
 
   XXH64_reset(state, NUM2ULL(seed));
 
-  char buffer[16384];
+  char buffer[XXH_FILE_BUFFER_SIZE];
   size_t count;
   FILE *fp = fopen(RSTRING_PTR(filename), "rb");
   if (fp == NULL) {
