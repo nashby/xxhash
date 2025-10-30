@@ -59,6 +59,11 @@ VALUE xxhash_xxh64_file(VALUE mod, VALUE filename, VALUE seed)
   while ((count = fread(buffer, 1, sizeof(buffer), fp)) != 0) {
     XXH64_update(state, buffer, count);
   }
+  if (ferror(fp)) {
+    XXH64_freeState(state);
+    fclose(fp);
+    rb_raise(rb_eIOError, "Error reading file");
+  }
   fclose(fp);
 
   XXH64_hash_t result = XXH64_digest(state);
