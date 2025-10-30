@@ -182,12 +182,17 @@ VALUE xxhash64_streaming_hash_new(VALUE klass, VALUE seed)
   xxhash_xxh64_t* storage;
   storage = ALLOC(xxhash_xxh64_t);
   storage->state = XXH64_createState();
+  if (storage->state == NULL) {
+    xfree(storage);
+    rb_raise(rb_eRuntimeError, "Cannot create state, out of memory");
+  }
   storage->seed = (unsigned int)NUM2ULL(seed);
 
   code = XXH64_reset(storage->state, storage->seed);
   if(code != XXH_OK) {
+    XXH64_freeState(storage->state);
+    xfree(storage);
     rb_raise(rb_eRuntimeError, "Error during reset.");
-    return Qnil;
   }
   return TypedData_Wrap_Struct(klass, &xxhash_xxh64_type, storage);
 }
