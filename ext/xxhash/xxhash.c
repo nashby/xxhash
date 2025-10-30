@@ -23,6 +23,11 @@ VALUE xxhash_xxh32_file(VALUE mod, VALUE filename, VALUE seed)
   while ((count = fread(buffer, 1, sizeof(buffer), fp)) != 0) {
     XXH32_update(state, buffer, count);
   }
+  if (ferror(fp)) {
+    XXH32_freeState(state);
+    fclose(fp);
+    rb_raise(rb_eIOError, "Error reading file");
+  }
   fclose(fp);
 
   XXH32_hash_t result = XXH32_digest(state);
