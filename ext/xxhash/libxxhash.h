@@ -4718,9 +4718,9 @@ XXH_PUBLIC_API XXH_errorcode
 XXH3_64bits_reset_withSecret(XXH3_state_t* statePtr, const void* secret, size_t secretSize)
 {
     if (statePtr == NULL) return XXH_ERROR;
-    XXH3_reset_internal(statePtr, 0, secret, secretSize);
     if (secret == NULL) return XXH_ERROR;
     if (secretSize < XXH3_SECRET_SIZE_MIN) return XXH_ERROR;
+    XXH3_reset_internal(statePtr, 0, secret, secretSize);
     return XXH_OK;
 }
 
