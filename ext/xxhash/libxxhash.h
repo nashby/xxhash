@@ -4616,7 +4616,8 @@ static void* XXH_alignedMalloc(size_t s, size_t align)
 {
     XXH_ASSERT(align <= 128 && align >= 8); /* range check */
     XXH_ASSERT((align & (align-1)) == 0);   /* power of 2 */
-    XXH_ASSERT(s != 0 && s < (s + align));  /* empty/overflow */
+    XXH_ASSERT(s != 0);                     /* empty */
+    XXH_ASSERT(s <= SIZE_MAX - align);      /* overflow check */
     {   /* Overallocate to make room for manual realignment and an offset byte */
         xxh_u8* base = (xxh_u8*)XXH_malloc(s + align);
         if (base != NULL) {
