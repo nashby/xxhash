@@ -3,14 +3,24 @@ require 'stringio'
 
 describe XXhash do
   it 'is marked as ractor-safe' do
-    skip("Ractorrs are not supported in this version of ruby(#{RUBY_VERSION})") unless defined?(Ractor)
+    skip("Ractors are not supported in this version of ruby (#{RUBY_VERSION})") unless defined?(Ractor)
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('4.0.0')
+      port = Ractor::Port.new
+      ractor = Ractor.new(port) do |port|
+        port << XXhash.xxh32(Ractor.receive)
+      end
 
-    ractor = Ractor.new do
-      Ractor.yield XXhash.xxh32(Ractor.receive)
+      ractor.send('test')
+      assert_equal port.receive, XXhash.xxh32('test')
+    else
+      # Ruby 3-style ractors
+      ractor = Ractor.new do
+        Ractor.yield XXhash.xxh32(Ractor.receive)
+      end
+
+      ractor.send('test')
+      assert_equal ractor.take, XXhash.xxh32('test')
     end
-
-    ractor.send('test')
-    assert_equal ractor.take, XXhash.xxh32('test')
   end
 
   it 'returns 32-bit hash' do
