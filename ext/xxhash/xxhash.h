@@ -10,7 +10,7 @@ typedef struct {
 
 typedef struct {
   XXH64_state_t* state;
-  unsigned int seed;
+  XXH64_hash_t seed;
 } xxhash_xxh64_t;
 
 // Use this typedef to make the compiler happy when

@@ -9,7 +9,7 @@ VALUE xxhash_xxh32_file(VALUE mod, VALUE filename, VALUE seed)
     rb_raise(rb_eRuntimeError, "%s", "Cannot create state, out of memory");
   }
 
-  XXH32_reset(state, NUM2INT(seed));
+  XXH32_reset(state, (XXH32_hash_t)NUM2ULL(seed));
 
   char buffer[16384];
   size_t count;
@@ -40,7 +40,7 @@ VALUE xxhash_xxh64_file(VALUE mod, VALUE filename, VALUE seed)
     rb_raise(rb_eRuntimeError, "%s", "Cannot create state, out of memory");
   }
 
-  XXH64_reset(state, NUM2INT(seed));
+  XXH64_reset(state, (XXH64_hash_t)NUM2ULL(seed));
 
   char buffer[16384];
   size_t count;
@@ -144,7 +144,7 @@ VALUE xxhash32_streaming_hash_digest(VALUE self)
 
 VALUE xxhash_xxh64(VALUE mod, VALUE input, VALUE seed)
 {
-  return ULL2NUM(XXH64(StringValuePtr(input), (size_t)RSTRING_LEN(input), (unsigned int)NUM2ULL(seed)));
+  return ULL2NUM(XXH64(StringValuePtr(input), (size_t)RSTRING_LEN(input), (XXH64_hash_t)NUM2ULL(seed)));
 }
 
 static void xxhash64_streaming_hash_free(void *ptr)
@@ -177,7 +177,7 @@ VALUE xxhash64_streaming_hash_new(VALUE klass, VALUE seed)
   xxhash_xxh64_t* storage;
   storage = ALLOC(xxhash_xxh64_t);
   storage->state = XXH64_createState();
-  storage->seed = (unsigned int)NUM2ULL(seed);
+  storage->seed = (XXH64_hash_t)NUM2ULL(seed);
 
   code = XXH64_reset(storage->state, storage->seed);
   if(code != XXH_OK) {
