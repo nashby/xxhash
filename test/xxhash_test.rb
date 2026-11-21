@@ -41,6 +41,20 @@ describe XXhash do
     assert_equal XXhash.xxh64(File.read(__FILE__), 123), XXhash.xxh64_file(__FILE__, 123)
   end
 
+  it 'uses all 64 bits of the seed for 64-bit hashes' do
+    assert_equal 1276897689684628186, XXhash.xxh64('test', 2**32 + 123)
+    assert_equal 2250001110355020483, XXhash.xxh64('test', 2**63 + 123)
+    assert_equal 10008091274658302090, XXhash.xxh64('test', 2**64 - 1)
+    assert_equal 1276897689684628186, XXhash.xxh64_stream(StringIO.new('test'), 2**32 + 123)
+    assert_equal 1276897689684628186, Digest::XXHash64.new(2**32 + 123).digest('test')
+    assert_equal XXhash.xxh64(File.read(__FILE__), 2**63 + 123), XXhash.xxh64_file(__FILE__, 2**63 + 123)
+  end
+
+  it 'accepts 32-bit seeds above 2**31 when hashing a file' do
+    assert_equal 340516759, XXhash.xxh32('test', 3_000_000_000)
+    assert_equal XXhash.xxh32(File.read(__FILE__), 3_000_000_000), XXhash.xxh32_file(__FILE__, 3_000_000_000)
+  end
+
   it 'uses 0 (default value) if seed is not specified' do
     assert_equal 1042293711, XXhash.xxh32('test')
     assert_equal 5754696928334414137, XXhash.xxh64('test')
